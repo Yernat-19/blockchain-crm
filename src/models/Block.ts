@@ -5,13 +5,14 @@ const SHA256 = message => createHash('sha256').update(message).digest('hex');
 class Block {
 
   timestamp: string;
-  data: Array<unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
   hash: string;
   prevHash: string;
   nonce: number;
   
 
-  constructor( data = []) {
+  constructor( data = {}) {
 
     this.timestamp = Date.now().toString();
     this.data = data;

@@ -16,11 +16,23 @@ export class BlockChainController {
     return blockchain;
   }
 
+  @Get('/blockchain-list')
+  get () {
+
+    // application.locals.blockchain = blockchain;
+    const uniqueToyNames = new Set(blockchain.chain.reverse().map(chain => chain.data.name));
+    const uniqueToys = Array.from(uniqueToyNames).map(name => {
+      // Find the first item with the given name (assuming names are unique)
+      return blockchain.chain.find(chain => chain.data.name === name);
+    });
+    return uniqueToys;
+  }
+
   @Post('/blockchain/add')
   @OnUndefined(204)
   add (
     @Body() 
-      data: Array<unknown>
+      data: object
   ) {
     console.log(JSON.stringify(data));
     const block = new Block(data);
