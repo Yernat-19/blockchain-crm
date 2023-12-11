@@ -1,5 +1,4 @@
 import {  useExpressServer } from 'routing-controllers';
-import { UserController } from './controller/user-controller';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import express, {Express} from 'express';
@@ -17,7 +16,7 @@ const app: Express = express();
 app.use(bodyParser.json());
 app.use(httpContext.middleware);
 useExpressServer(app, {
-  controllers: [UserController, BlockChainController],
+  controllers: [ BlockChainController],
   middlewares: [GlobalErrorHandler],
   defaultErrorHandler: false
 });

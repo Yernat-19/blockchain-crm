@@ -1,8 +1,8 @@
-import { Action, Body, Controller, Get,  OnUndefined,  Param, Post, UseInterceptor } from 'routing-controllers';
+import { Action, Body, Controller, Get,  OnUndefined, Post, UseInterceptor } from 'routing-controllers';
 import 'reflect-metadata';
 import BlockChain from '../models/Blockchain';
 import Block from '../models/Block';
-let blockchain: BlockChain = new BlockChain();
+const blockchain: BlockChain = new BlockChain();
 @Controller()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 @UseInterceptor(function (action: Action, content: any) {
@@ -11,7 +11,6 @@ let blockchain: BlockChain = new BlockChain();
 export class BlockChainController {
   @Get('/blockchain')
   init () {
-    blockchain = new BlockChain();
 
     // application.locals.blockchain = blockchain;
     return blockchain;

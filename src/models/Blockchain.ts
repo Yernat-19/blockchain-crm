@@ -1,12 +1,14 @@
 import Block from './Block';
+import fs from 'fs';
 
+const FILE_PATH = './dist/blockchain.json';
 class Blockchain {
 
   chain: Array<Block>;
   difficulty: number = 1;
 
   constructor() {
-    this.chain = [new Block()];
+    this.readFile();
   }
 
   getLastBlock() {
@@ -18,6 +20,7 @@ class Blockchain {
     block.hash = block.getHash();
     block.mine(this.difficulty);
     this.chain.push(block);
+    this.writeToFile();
   }
 
   isValid() {
@@ -45,6 +48,34 @@ class Blockchain {
       return false;
     }
     return true;
+  }
+
+
+  readFile() {
+    fs.readFile(FILE_PATH, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
+        return;
+      }
+  
+      try {
+        // Parse the JSON data
+        const jsonData = JSON.parse(data);
+        this.chain = jsonData.chain;
+        this.difficulty = jsonData.difficulty;
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    });
+  }
+
+  writeToFile() {
+    try {
+      const jsonString = JSON.stringify(this, null, 2); // Convert JSON to string with indentation
+      fs.writeFileSync(FILE_PATH, jsonString, 'utf8');
+    } catch (error) {
+      console.error('Error writing JSON to file:', error);
+    }
   }
 }
 
